@@ -1,0 +1,35 @@
+.panel-default>.panel-heading{
+	background-image:none;
+	text-align: center;
+	background-color:#89BBFE;
+	color: white;
+}
+
+#searchResultsShown{
+	padding:30%;
+
+}
+
+#resultsPanel{
+	border:2px solid ;
+}
+
+#searchBtn{
+	margin-left:none;
+}
+
+body{
+	margin:10px;
+	background-image:url("../assets/../regal.png");
+}
+
+.form-group > .form-control{
+	width:200%;
+}
+
+#notes{
+	margin-top:30px;
+
+}
+
+
