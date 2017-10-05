@@ -1,0 +1,23 @@
+google JSON api:   AIzaSyD6bIuTTEm5v6yAgiJ2HWopoC0OS0q22XY
+
+https://developers.google.com/custom-search/json-api/v1/overview
+
+-----------------------
+
+BING:
+
+Endpoints
+
+https://api.cognitive.microsoft.com/bing/v5.0/images
+
+https://api.cognitive.microsoft.com/bing/v5.0/knowledge
+
+https://api.cognitive.microsoft.com/bing/v5.0/news
+
+https://api.cognitive.microsoft.com/bing/v5.0/videos
+
+https://api.cognitive.microsoft.com/bing/v5.0
+
+Key 1: f4b733185efa4a7c9fa6cbbc4ea6899e
+
+Key 2: ea6aff8c91eb45139b59f0ec33948960
