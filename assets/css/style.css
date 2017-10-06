@@ -40,7 +40,7 @@ body{
 #resultsPanel{
 	border:2px solid white;
 	border-radius: 15px;
-	font-size:40px;
+	word-break:break-all;
 }
 
 #searchBtn{
