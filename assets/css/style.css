@@ -1,59 +1,84 @@
 
 body{
-	margin:10px;
+	margin:none;
 	/*background-image:url("../images/linedpaper.png");*/
 	background-color:#E9E9E9;
-
+	
 }
 
-
+.container{
+	margin:0;
+}
 
 #logo{
 	height:40px;
 }
 
+.container-fluid{
+	background-image:none;
+	background-color:#A7B3A5;
+}
+
+
 .panel-default>.panel-heading{
 	background-image:none;
 	text-align: center;
-	background-color:#88BBD6;
-	padding:20px;
+	background-color:#999999;
+	padding:10px;
 	color:white;
-	
+	border-radius: 15px;
+	margin:none;
+	font-family: 'Abel', sans-serif;
+	font-size:40px;
+
 }
 
-#main-header{
+.panel-title{
+	font-size:30px;
 }
-
 
 #resultsPanel{
-	border:2px solid white ;
-
+	border:2px solid white;
+	border-radius: 15px;
+	font-size:40px;
 }
 
 #searchBtn{
 	margin-left:430px;
 	padding:10px;
+	background-image:none;
 }
 
 #signout{
 	margin-left:100px;
+	font-family: 'Abel', sans-serif;
 }
 
 
 .form-group > .form-control{
 	width:350%;
 	height:50px;
-	font-size:15px;
+	font-size:18px;
+	font-family: 'Abel', sans-serif;
 }
 
 
-#notes{
+.pin-search{
 	margin-top:30px;
+	margin-right:30px;
 	border-radius:15px;
 	padding-bottom:40px;
-	background-color:#99D3DF;
-	border:2px solid white;
+	background-color:#B56357;
+	border:3px solid white;
 	color:white;
+	text-align:center;
+	font-family: 'Abel', sans-serif;
+	font-size:20px;
+	font-style:bold;
+}
+
+#pin-search-og{
+	margin-top:0;
 }
 
 #list-heading{
