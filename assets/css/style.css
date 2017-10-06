@@ -2,8 +2,8 @@
 body{
 	margin:none;
 	/*background-image:url("../images/linedpaper.png");*/
-	background-color:#E9E9E9;
-	
+	background-color:transparent;
+	background-image:url("../images/black-orchid.png");
 }
 
 .container{
