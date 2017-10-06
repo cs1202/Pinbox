@@ -1,41 +1,47 @@
 
 body{
 	margin:10px;
-	background-image:url("../assets/../regal.png");
+	/*background-image:url("../images/linedpaper.png");*/
+	background-color:#E9E9E9;
+
 }
+
 
 
 #logo{
 	height:40px;
-
-
 }
 
 .panel-default>.panel-heading{
 	background-image:none;
 	text-align: center;
-	background-color:#82D7D0;
+	background-color:#88BBD6;
 	padding:20px;
+	color:white;
 	
 }
 
-#searchResultsShown{
-	padding:30%;
-
+#main-header{
 }
 
+
 #resultsPanel{
-	border:2px solid #112649 ;
+	border:2px solid white ;
 
 }
 
 #searchBtn{
-	margin-left:600px;
+	margin-left:430px;
+	padding:10px;
+}
+
+#signout{
+	margin-left:100px;
 }
 
 
 .form-group > .form-control{
-	width:400%;
+	width:350%;
 	height:50px;
 	font-size:15px;
 }
@@ -45,14 +51,15 @@ body{
 	margin-top:30px;
 	border-radius:15px;
 	padding-bottom:40px;
-	background-color:#9DC7EA;
-	border:2px solid #112649;
-	font-family: 'Abel', sans-serif;
-/*	background-color: grey;
-    box-shadow: 10px 10px 5px #888888;*/
-
+	background-color:#99D3DF;
+	border:2px solid white;
+	color:white;
 }
 
+#list-heading{
+	color:white;
+	text-align:center;
+}
 
 
 
