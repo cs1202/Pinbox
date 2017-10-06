@@ -18,18 +18,28 @@ firebase.initializeApp(config);
 
 // --- --- GLOBAL FUNCTIONS --- ---
 
+function getSearchResults( searchQuery ){
+
+    console.log ( 'Search Query: ' +searchQuery );
+
+    
+
+}
+
 
 
 // --- --- EVENT HANDLERS --- ---
 
 
-$('#search').submit( function( searchQuery ){
+$('#search').submit( function( event ){
 
- event.preventDefault();
-
-    console.log( $(this).val() );
-    //console.log( searchQuery );
     event.preventDefault();
+
+    inputText = $('#search-input').val();
+
+    console.log( 'Input Text: ' + inputText );
+
+    getSearchResults( inputText );
 
 });
 
