@@ -76,7 +76,7 @@ function displayResults( arrayToDisplay ){
         var objectToDisplay = arrayToDisplay[i];
         
         //create a div containing number, title, link, and snippet
-        $('#search-results-shown').append(
+        $('.search-results-shown').append(
             `
             <div>
                 <h3>${objectToDisplay.number}. ${objectToDisplay.title}</h3>
@@ -92,8 +92,6 @@ function displayResults( arrayToDisplay ){
         );
 
     }
-
-
 
 }
 
@@ -120,7 +118,7 @@ $('#search').submit( function( event ){
     $('#search-term-result').text('Results for "' +inputText +'"');
 
     //clear results panel
-    $('#search-results-shown').html('');
+    $('.search-results-shown').html('');
 
     //clear results array
     currentResultArray = [];
@@ -130,7 +128,8 @@ $('#search').submit( function( event ){
 
 });
 
-
+//DRAGULA SCRIPT CODE
+dragula([document.getElementById("left"), document.getElementById("right")]);
 
 
 
@@ -138,8 +137,6 @@ $('#search').submit( function( event ){
 // --- --- MAIN PAGE LOGIC --- --- 
 
 console.log('Page Loaded');
-
-
 
 
 /*
