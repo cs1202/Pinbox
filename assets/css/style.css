@@ -2,7 +2,6 @@
 /* Entire html document (backgrounds)*/
 html{
 	height:100%;
-
 }
 
 body{
@@ -12,7 +11,7 @@ body{
 	height:100%;
 	max-width:100%;
 	overflow-x:hidden;
-
+	overflow-y:hidden;
 }
 
 .container{
@@ -30,13 +29,10 @@ body{
 
 .navbar .navbar-default{
 	display:inline-block;
-
 }
 
 #logo{
 	height:40px;
-
-
 }
 
 #signout{
@@ -45,7 +41,6 @@ body{
 	margin-top:15px;
 	display: inline-block;
 	margin-left:-50px;
-
 }
 
 
@@ -58,7 +53,7 @@ body{
 	border-radius: 5px;
 	margin:0;
 	margin-left:-50px;
-	}
+}
 
 
 /* search bar */
@@ -80,10 +75,6 @@ body{
 	display:inline;
 
 }
-
-
-
-
 
 
 
@@ -115,9 +106,13 @@ body{
 	overflow-y: auto;
 	max-height:550px;
 	height:100%;
-
+	margin-right:10px;
 }
 
+#left{
+	margin-left: 10px;
+	margin-right: 10px;
+}
 
 
 /* pinbox stick notes on left */
