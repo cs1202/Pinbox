@@ -11,6 +11,8 @@ var config = {
 
 firebase.initializeApp(config);
 
+var currentResultArray = [];
+
 // --- --- GLOBAL VARIABLES --- ---
 
 
@@ -30,8 +32,6 @@ function getSearchResults( searchQuery ){
 
     $.ajax({ url: queryURL, method: "GET" }).done(function(response) {
 
-    console.log(response);
-
     makeObjects(response);
 
     });
@@ -41,42 +41,57 @@ function getSearchResults( searchQuery ){
 function makeObjects( ajaxResponse ){
 
 //replace with for loop
-    var i = 0;
+    // var i = 0;
+    console.log ( ajaxResponse);
+    console.log ('length: '+ajaxResponse.items.length)
 
-    var searchResultObject = {
+    for ( var i = 0; i < ajaxResponse.items.length; i++){
+
+        var currentResult = {
+                                number: i+1,
                                 title: ajaxResponse.items[i].title, 
                                 link: ajaxResponse.items[i].link,
                                 snippet: ajaxResponse.items[i].snippet
                             };
 
-    console.log(searchResultObject);
+        currentResultArray.push(currentResult);
 
-    displayResults(searchResultObject);
+    }
+
+    console.log('array:') 
+    console.log(currentResultArray);
+
+    displayResults(currentResultArray);
 
 }
 
 
-// prepend object to DOM
-function displayResults( objectToDisplay ){
+// append array of objects to DOM
+function displayResults( arrayToDisplay ){
 
-    //create a div
-    //append title
-    //append link as a hyperlink
-    //append snippet 
-    $('#search-results-shown').append(
-        `
-        <div>
-            <h3>${objectToDisplay.title}</h3>
-                    
-            <a href="${objectToDisplay.link}" target="_blank">${objectToDisplay.link}</a>
 
-            <p>${objectToDisplay.snippet}</p>
+    for (var i = 0; i < arrayToDisplay.length; i++){
 
-            <hr>
-        </div>
+        //initialize variable pointing to current object in array
+        var objectToDisplay = arrayToDisplay[i];
+        
+        //create a div containing number, title, link, and snippet
+        $('#search-results-shown').append(
+            `
+            <div>
+                <h3>${objectToDisplay.number}. ${objectToDisplay.title}</h3>
+                        
+                <a href="${objectToDisplay.link}" target="_blank">${objectToDisplay.link}</a>
 
-        `
-    );
+                <p>${objectToDisplay.snippet}</p>
+
+                <hr>
+            </div>
+
+            `
+        );
+
+    }
 
 
 
@@ -98,6 +113,17 @@ $('#search').submit( function( event ){
     inputText = $('#search-input').val();
 
     console.log( 'Input Text: ' + inputText );
+
+    //display input text in search results title bar
+
+    // console.log('change results')
+    $('#search-term-result').text('Results for "' +inputText +'"');
+
+    //clear results panel
+    $('#search-results-shown').html('');
+
+    //clear results array
+    currentResultArray = [];
 
     //initiate a search using the search term
     getSearchResults( inputText );
