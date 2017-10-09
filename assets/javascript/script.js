@@ -11,11 +11,15 @@ var config = {
 
 firebase.initializeApp(config);
 
-var currentResultArray = [];
-
 // --- --- GLOBAL VARIABLES --- ---
 
+var database = firebase.database();
 
+var currentResultArray = [];
+
+var currentUser = 'testUser';
+
+var inputText = '';
 
 
 // --- --- GLOBAL FUNCTIONS --- ---
@@ -38,10 +42,9 @@ function getSearchResults( searchQuery ){
 
 }
 
+//pushes ajax result back into currentResultArray
 function makeObjects( ajaxResponse ){
 
-//replace with for loop
-    // var i = 0;
     console.log ( ajaxResponse);
     console.log ('length: '+ajaxResponse.items.length)
 
@@ -116,6 +119,7 @@ $('#search').submit( function( event ){
 
     // console.log('change results')
     $('#search-term-result').text('Results for "' +inputText +'"');
+    $('#search-term-result').append('<span class="glyphicon glyphicon-pushpin" style= "float:right" id="result-pin"></span>')
 
     //clear results panel
     $('.search-results-shown').html('');
@@ -128,6 +132,43 @@ $('#search').submit( function( event ){
 
 });
 
+// when pin button clicked on search term, adds to database
+
+$(document).on('click', '#result-pin', function(){
+
+    var newDatabaseObject = {
+                                label: inputText,
+                                resultsArray: currentResultArray
+                            };
+
+    database.ref(currentUser+'/pinnedSearches/').push(newDatabaseObject);
+
+});
+
+// adds all pinned terms to panels in left sidebar
+
+database.ref(currentUser+'/pinnedSearches/').on("child_added", function(snapshot) {
+
+    console.log(snapshot.val().label);
+
+    $('#side-bar').prepend(`
+
+                        <div class="panel panel-default pin-search" id="pin-search-og">
+                            <div class="panel-body" id="right">
+                                ${snapshot.val().label}
+                            </div>
+                        </div>
+
+
+
+
+        `);
+
+
+
+});
+
+
 //DRAGULA SCRIPT CODE
 dragula([document.getElementById("left"), document.getElementById("right")]);
 
@@ -137,6 +178,8 @@ dragula([document.getElementById("left"), document.getElementById("right")]);
 // --- --- MAIN PAGE LOGIC --- --- 
 
 console.log('Page Loaded');
+
+
 
 
 /*
