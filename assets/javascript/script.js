@@ -21,6 +21,8 @@ var currentUser = null;
 
 var inputText = '';
 
+var quill = null;
+
 
 // --- --- GLOBAL FUNCTIONS --- ---
 
@@ -96,6 +98,46 @@ function displayResults( arrayToDisplay ){
 
     }
 
+};
+
+
+function makeNews (newsResponse) {
+    var newsArray = [];
+    for (var i = 0; i < newsResponse.articles.length; i++){
+            var currentItem = {
+                                number: i+1,
+                                title: newsResponse.articles[i].title, 
+                                url: newsResponse.articles[i].url,
+                                description: newsResponse.articles[i].description
+                            };
+
+        newsArray.push(currentItem); 
+
+    }
+
+    displayNews(newsArray);
+
+};
+
+function displayNews (newsToDisplay) {
+    for (var i = 0; i < newsToDisplay.length; i++){
+
+        var objectToDisplay = newsToDisplay[i];
+        $('.search-results-shown').append(
+            `
+            <div>
+                <h3>${objectToDisplay.number}. ${objectToDisplay.title}</h3>
+                        
+                <a href="${objectToDisplay.url}" target="_blank">${objectToDisplay.url}</a>
+
+                <p>${objectToDisplay.description}</p>
+
+                <hr>
+            </div>
+
+            `
+        )
+    }
 }
 
 
@@ -137,6 +179,7 @@ $('#search').submit( function( event ){
                 <span>Click to Add Notes</span>        
             </span>
          </div>
+         <hr>
 
         `)
 
@@ -207,6 +250,7 @@ $(document).on('click', '.pin-search', function(){
                 <span>Click to Add Notes</span>        
             </span>
          </div>
+         <hr>
 
         `)
 
@@ -250,6 +294,21 @@ console.log('Page Loaded');
 //clears placeholders from the sidebar
 $('#side-bar').html('');
 
+
+//initializes the news display
+$(document).ready ( function () {
+
+    $('#search-term-result').text('Top TechCrunch Headlines:');
+    var queryURL = "https://newsapi.org/v1/articles?source=techcrunch&sortBy=top&apiKey=671033c49a4a4f5392b09b572445e7fc"
+    var newsArray = [];
+    
+    $.ajax({
+    url: queryURL,
+    method: "GET"
+    }).done(function(response) {
+    makeNews(response);
+    });
+});
 
 //check for login status
 
@@ -301,9 +360,11 @@ $(document).on('click', '.add-notes-button', function(){
 
     console.log('edit click')
     //clear editor div
-    $('.editor-div').html('');
+    $('.editor-div').html(`
+            <div class='quill-box'></div>
+    `)
 
-    var quill = new Quill('.editor-div', {
+    quill = new Quill('.quill-box', {
         modules: {
             toolbar: ['code-block']
         },
@@ -311,8 +372,19 @@ $(document).on('click', '.add-notes-button', function(){
         theme: 'snow'  // or 'bubble'
     });
 
+    $('.editor-div').append(`
+
+        <button class="btn btn-default save-button">Save Notes</button>
+        
+        `)
+
 });
 
+$(document).on('click', '.save-button', function(){
+
+    console.log( quill.getContents());
+
+});
 
 /*
 

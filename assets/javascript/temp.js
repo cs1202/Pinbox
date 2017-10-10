@@ -8,8 +8,8 @@ $(document).ready ( function () {
 	method: "GET"
 	}).done(function(response) {
 	makeNews(response);
-	})
-})
+	});
+});
 
 function makeNews (newsResponse) {
 	var newsArray = [];
@@ -25,9 +25,9 @@ function makeNews (newsResponse) {
 
       
 
-}
+    }
 
-displayNews(newsArray)
+    displayNews(newsArray);
 
 }
 
@@ -48,6 +48,6 @@ function displayNews (newsToDisplay) {
             </div>
 
             `
-										)
+		)
     }
-   }
+}
