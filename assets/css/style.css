@@ -129,11 +129,6 @@ body{
 	font-style:bold;
 }
 
-.pin-search:active {
-	width:200px;
-	height:150px;
-}
-
 #pin-search-og{
 	margin-top:0;
 }
