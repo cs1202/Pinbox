@@ -127,6 +127,22 @@ $('#search').submit( function( event ){
     //clear results panel
     $('.search-results-shown').html('');
 
+    // add notepad option to top of panel
+
+    $('.search-results-shown').append(`
+
+        <div class="editor-div">
+            <span class="add-notes-button">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span>Click to Add Notes</span>        
+            </span>
+         </div>
+
+        `)
+
+    // <div id="editor-container"></div>
+
+
     //clear results array
     currentResultArray = [];
 
@@ -181,6 +197,18 @@ $(document).on('click', '.pin-search', function(){
 
         //clear results panel
         $('.search-results-shown').html('');
+
+        //add editor box to top of panel
+        $('.search-results-shown').append(`
+
+         <div class="editor-div" style="height, 275px">
+            <span class="add-notes-button">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span>Click to Add Notes</span>        
+            </span>
+         </div>
+
+        `)
 
         //clear results array
         currentResultArray = [];
@@ -258,10 +286,30 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
 });
 
+
+//signout when button clicked, redirect to signin
 $(document).on('click', '#signout', function(){
 
     firebase.auth().signOut();
     window.location = "signin.html";
+
+});
+
+
+// when "add notes" button clicked, initialize editor
+$(document).on('click', '.add-notes-button', function(){
+
+    console.log('edit click')
+    //clear editor div
+    $('.editor-div').html('');
+
+    var quill = new Quill('.editor-div', {
+        modules: {
+            toolbar: ['code-block']
+        },
+        placeholder: 'Add notes...',
+        theme: 'snow'  // or 'bubble'
+    });
 
 });
 
