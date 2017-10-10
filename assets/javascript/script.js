@@ -231,7 +231,10 @@ firebase.auth().onAuthStateChanged(function(user) {
         console.log('user: ' +firebase.auth().currentUser.email);
         currentUser = firebase.auth().currentUser.uid;
 
-    // adds all pinned terms to panels in left sidebar
+        //writes current user email next to Sign Out button
+        $('#current-email').text(firebase.auth().currentUser.email);
+
+        // adds all pinned terms to panels in left sidebar
         database.ref(currentUser+'/pinnedSearches/').on("child_added", function(snapshot) {
 
             console.log('Pinned Result: '+snapshot.val().label);
@@ -254,7 +257,6 @@ firebase.auth().onAuthStateChanged(function(user) {
             window.location = "signin.html";
     }
 });
-
 
 $(document).on('click', '#signout', function(){
 
