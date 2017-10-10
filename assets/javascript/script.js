@@ -143,43 +143,81 @@ $(document).on('click', '#result-pin', function(){
 
     database.ref(currentUser+'/pinnedSearches/').push(newDatabaseObject);
 
+    $('#result-pin').hide();
+
 });
 
 // adds all pinned terms to panels in left sidebar
-
 database.ref(currentUser+'/pinnedSearches/').on("child_added", function(snapshot) {
 
-    console.log(snapshot.val().label);
+    console.log('Pinned Result: '+snapshot.val().label);
 
     $('#side-bar').prepend(`
 
-                        <div class="panel panel-default pin-search" id="pin-search-og">
+                        <div class="panel panel-default pin-search" data-label = "${snapshot.key}" id="pin-search-og">
                             <div class="panel-body" id="right">
                                 ${snapshot.val().label}
+                                <span class="glyphicon glyphicon-remove" style= "float:right"></span>
                             </div>
                         </div>
 
-
-
-
         `);
 
+});
 
+// when pinned search clicked, display object in db
+$(document).on('click', '.pin-search', function(){
+
+    //initializes variable to the key for the clicked element
+    var currentKey = $(this).attr('data-label');
+
+    database.ref(currentUser+'/pinnedSearches/'+currentKey).once("value", function(snapshot) {
+
+        $('#search-term-result').text('Pinned Results for "' +snapshot.val().label +'"');
+        // $('#search-term-result').append('<span class="glyphicon glyphicon-remove" style= "float:right" id="remove-pin"></span>')
+
+        //clear results panel
+        $('.search-results-shown').html('');
+
+        //clear results array
+        currentResultArray = [];
+
+        //initiate a search using the search term
+        displayResults(snapshot.val().resultsArray)
+
+    });
 
 });
+
+
+$(document).on('click', '.glyphicon-remove', function(){
+
+    console.log('remove this!')
+
+    var currentKey = $(this).parent().parent().attr('data-label');
+
+    console.log('Current Key: '+currentKey);
+
+    console.log('Remove path: ' +currentUser+'/pinnedSearches/'+currentKey)
+
+    database.ref(currentUser+'/pinnedSearches/'+currentKey).remove();
+
+    $(this).parent().parent().hide();
+
+});
+
 
 
 //DRAGULA SCRIPT CODE
 dragula([document.getElementById("left"), document.getElementById("right")]);
 
 
-
-
 // --- --- MAIN PAGE LOGIC --- --- 
 
 console.log('Page Loaded');
 
-
+//clears placeholders from the sidebar
+$('#side-bar').html('');
 
 
 /*
