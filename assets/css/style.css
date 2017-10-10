@@ -107,11 +107,18 @@ body{
 	max-height:550px;
 	height:100%;
 	margin-right:10px;
+
 }
 
 #left{
 	margin-left: 10px;
 	margin-right: 10px;
+}
+
+#side-bar{
+	overflow-y: auto;
+    max-height: 550px;
+    height: 100%;
 }
 
 
@@ -128,6 +135,7 @@ body{
 	font-family: 'Abel', sans-serif;
 	font-size:20px;
 	font-style:bold;
+
 }
 
 .pin-search:active {
