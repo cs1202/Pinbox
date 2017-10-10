@@ -17,7 +17,7 @@ var database = firebase.database();
 
 var currentResultArray = [];
 
-var currentUser = 'testUser';
+var currentUser = null;
 
 var inputText = '';
 
@@ -113,6 +113,9 @@ $('#search').submit( function( event ){
     //retrieve the contents of the input box
     inputText = $('#search-input').val();
 
+    //clear contents of input box
+    $("#search")[0].reset()
+
     console.log( 'Input Text: ' + inputText );
 
     //display input text in search results title bar
@@ -123,6 +126,22 @@ $('#search').submit( function( event ){
 
     //clear results panel
     $('.search-results-shown').html('');
+
+    // add notepad option to top of panel
+
+    $('.search-results-shown').append(`
+
+        <div class="editor-div">
+            <span class="add-notes-button">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span>Click to Add Notes</span>        
+            </span>
+         </div>
+
+        `)
+
+    // <div id="editor-container"></div>
+
 
     //clear results array
     currentResultArray = [];
@@ -179,6 +198,18 @@ $(document).on('click', '.pin-search', function(){
         //clear results panel
         $('.search-results-shown').html('');
 
+        //add editor box to top of panel
+        $('.search-results-shown').append(`
+
+         <div class="editor-div" style="height, 275px">
+            <span class="add-notes-button">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span>Click to Add Notes</span>        
+            </span>
+         </div>
+
+        `)
+
         //clear results array
         currentResultArray = [];
 
@@ -189,7 +220,7 @@ $(document).on('click', '.pin-search', function(){
 
 });
 
-
+//when remove "X" clicked, item removed from sidebar
 $(document).on('click', '.glyphicon-remove', function(){
 
     console.log('remove this!')
@@ -218,6 +249,69 @@ console.log('Page Loaded');
 
 //clears placeholders from the sidebar
 $('#side-bar').html('');
+
+
+//check for login status
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        console.log('signed in!')
+        console.log('user: ' +firebase.auth().currentUser.email);
+        currentUser = firebase.auth().currentUser.uid;
+
+        //writes current user email next to Sign Out button
+        $('#current-email').text(firebase.auth().currentUser.email);
+
+        // adds all pinned terms to panels in left sidebar
+        database.ref(currentUser+'/pinnedSearches/').on("child_added", function(snapshot) {
+
+            console.log('Pinned Result: '+snapshot.val().label);
+
+            $('#side-bar').prepend(`
+
+                <div class="panel panel-default pin-search" data-label = "${snapshot.key}" id="pin-search-og">
+                <div class="panel-body" id="right">
+                ${snapshot.val().label}
+                <span class="glyphicon glyphicon-remove" style= "float:right"></span>
+                </div>
+                </div>
+
+            `);
+
+        });
+
+    } else {
+            console.log('Error: not signed in!')
+            window.location = "signin.html";
+    }
+});
+
+
+//signout when button clicked, redirect to signin
+$(document).on('click', '#signout', function(){
+
+    firebase.auth().signOut();
+    window.location = "signin.html";
+
+});
+
+
+// when "add notes" button clicked, initialize editor
+$(document).on('click', '.add-notes-button', function(){
+
+    console.log('edit click')
+    //clear editor div
+    $('.editor-div').html('');
+
+    var quill = new Quill('.editor-div', {
+        modules: {
+            toolbar: ['code-block']
+        },
+        placeholder: 'Add notes...',
+        theme: 'snow'  // or 'bubble'
+    });
+
+});
 
 
 /*
