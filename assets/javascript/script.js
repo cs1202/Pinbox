@@ -17,7 +17,7 @@ var database = firebase.database();
 
 var currentResultArray = [];
 
-var currentUser = 'testUser';
+var currentUser = null;
 
 var inputText = '';
 
@@ -113,6 +113,9 @@ $('#search').submit( function( event ){
     //retrieve the contents of the input box
     inputText = $('#search-input').val();
 
+    //clear contents of input box
+    $("#search")[0].reset()
+
     console.log( 'Input Text: ' + inputText );
 
     //display input text in search results title bar
@@ -189,7 +192,7 @@ $(document).on('click', '.pin-search', function(){
 
 });
 
-
+//when remove "X" clicked, item removed from sidebar
 $(document).on('click', '.glyphicon-remove', function(){
 
     console.log('remove this!')
@@ -218,6 +221,47 @@ console.log('Page Loaded');
 
 //clears placeholders from the sidebar
 $('#side-bar').html('');
+
+
+//check for login status
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        console.log('signed in!')
+        console.log('user: ' +firebase.auth().currentUser.email);
+        currentUser = firebase.auth().currentUser.uid;
+
+    // adds all pinned terms to panels in left sidebar
+        database.ref(currentUser+'/pinnedSearches/').on("child_added", function(snapshot) {
+
+            console.log('Pinned Result: '+snapshot.val().label);
+
+            $('#side-bar').prepend(`
+
+                <div class="panel panel-default pin-search" data-label = "${snapshot.key}" id="pin-search-og">
+                <div class="panel-body" id="right">
+                ${snapshot.val().label}
+                <span class="glyphicon glyphicon-remove" style= "float:right"></span>
+                </div>
+                </div>
+
+            `);
+
+        });
+
+    } else {
+            console.log('Error: not signed in!')
+            window.location = "signin.html";
+    }
+});
+
+
+$(document).on('click', '#signout', function(){
+
+    firebase.auth().signOut();
+    window.location = "signin.html";
+
+});
 
 
 /*
