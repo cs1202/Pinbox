@@ -346,7 +346,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             $('#side-bar').prepend(`
 
                 <div class="panel panel-default pin-search" data-label = "${snapshot.key}" id="pin-search-og">
-                <div class="panel-body" id="right">
+                <div class="panel-body">
                 ${snapshot.val().label}
                 <span class="glyphicon glyphicon-remove" style= "float:right"></span>
                 </div>

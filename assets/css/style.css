@@ -50,7 +50,11 @@ body{
 #searchBtn{
 	padding:8px;
 	background-image:none;
-	background-color: rgba(170, 104, 91, .5);
+	/*background-color: rgba(170, 104, 91, .5);*/
+
+	background-color: #999999;
+	color: white;
+
 	border: none;
 	border-radius: 5px;
 	margin:0;
@@ -140,6 +144,11 @@ body{
 	font-family: 'Abel', sans-serif;
 	font-size:20px;
 	font-style:bold;
+}
+
+.pin-search:hover{
+
+	background-color: #cc0000;
 }
 
 #pin-search-og{
