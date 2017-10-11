@@ -11,6 +11,7 @@ var config = {
 
 firebase.initializeApp(config);
 
+
 // --- --- GLOBAL VARIABLES --- ---
 
 var database = firebase.database();
@@ -28,7 +29,6 @@ var currentKey = null;
 
 // --- --- GLOBAL FUNCTIONS --- ---
 
-
 //function to take a string and execute an AJAX search, returning the JSON search object
 function getSearchResults( searchQuery ){
 
@@ -40,6 +40,9 @@ function getSearchResults( searchQuery ){
 
     $.ajax({ url: queryURL, method: "GET" }).done(function(response) {
 
+    //clear spinner from main panel
+    $('.search-results-shown').html('');
+    
     makeObjects(response);
 
     });
@@ -75,7 +78,6 @@ function makeObjects( ajaxResponse ){
 
 // append array of objects to DOM
 function displayResults( arrayToDisplay ){
-
 
     for (var i = 0; i < arrayToDisplay.length; i++){
 
@@ -143,9 +145,6 @@ function displayNews (newsToDisplay) {
 }
 
 
-
-
-
 // --- --- EVENT HANDLERS --- ---
 
 // when search form submitted (click or enter)
@@ -168,8 +167,8 @@ $('#search').submit( function( event ){
     $('#search-term-result').text('Results for "' +inputText +'"');
     $('#search-term-result').append('<span class="glyphicon glyphicon-pushpin" style= "float:right" id="result-pin"></span>')
 
-    //clear results panel
-    $('.search-results-shown').html('');
+    //clear results panel; insert spinner
+    $('.search-results-shown').html('<div class="spinner"></div>');
 
     //clear results array
     currentResultArray = [];
@@ -188,12 +187,10 @@ $(document).on('click', '#result-pin', function(){
                                 resultsArray: currentResultArray
                             };
 
-
     currentKey = database.ref(currentUser+'/pinnedSearches/').push().getKey();
     database.ref(currentUser+'/pinnedSearches/'+currentKey).set(newDatabaseObject);
 
     $('#result-pin').hide();
-
 
     //add editor box to top of panel
     $('.search-results-shown').prepend(`
@@ -254,11 +251,11 @@ $(document).on('click', '.pin-search', function(){
         //add editor box to top of panel
         $('.search-results-shown').append(`
 
-        <div class="editor-div" style="height, 275px">
-            <div class='quill-box'>
+            <div class="editor-div" style="height, 275px">
+                <div class='quill-box'>
+                </div>
             </div>
-        </div>
-        <hr>
+            <hr>
 
         `)
       
@@ -315,7 +312,6 @@ console.log('Page Loaded');
 
 //clears placeholders from the sidebar
 $('#side-bar').html('');
-
 
 //initializes the news display
 $(document).ready ( function () {
@@ -374,6 +370,7 @@ $(document).on('click', '#signout', function(){
     window.location = "signin.html";
 
 });
+
 
 //when save button clicked, note is set in database
 $(document).on('click', '.save-button', function(){
