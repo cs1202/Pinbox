@@ -161,21 +161,24 @@ $('#search').submit( function( event ){
 
     console.log( 'Input Text: ' + inputText );
 
-    //display input text in search results title bar
+    //validates that input is not blank
+    if (inputText !== ''){
 
-    // console.log('change results')
-    $('#search-term-result').text('Results for "' +inputText +'"');
-    $('#search-term-result').append('<span class="glyphicon glyphicon-pushpin" style= "float:right" id="result-pin"></span>')
+        //display input text in search results title bar
 
-    //clear results panel; insert spinner
-    $('.search-results-shown').html('<div class="spinner"></div>');
+        // console.log('change results')
+        $('#search-term-result').text('Results for "' +inputText +'"');
+        $('#search-term-result').append('<span class="glyphicon glyphicon-pushpin" style= "float:right" id="result-pin"></span>')
 
-    //clear results array
-    currentResultArray = [];
+        //clear results panel; insert spinner
+        $('.search-results-shown').html('<div class="spinner"></div>');
 
-    //initiate a search using the search term
-    getSearchResults( inputText );
+        //clear results array
+        currentResultArray = [];
 
+        //initiate a search using the search term
+        getSearchResults( inputText );
+    }
 });
 
 // when pin button clicked on search term, adds to database
