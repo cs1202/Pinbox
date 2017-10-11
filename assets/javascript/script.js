@@ -153,19 +153,18 @@ $('#search').submit( function( event ){
 
     event.preventDefault();
 
-    //retrieve the contents of the input box
-    inputText = $('#search-input').val();
+    // validates that input is not blank
+    if ($('#search-input').val() !== ''){
 
-    //clear contents of input box
-    $("#search")[0].reset()
+        // retrieve the contents of the input box
+        inputText = $('#search-input').val();
 
-    console.log( 'Input Text: ' + inputText );
+        // clear contents of input box
+        $("#search")[0].reset()
 
-    //validates that input is not blank
-    if (inputText !== ''){
+        console.log( 'Input Text: ' + inputText );
 
-        //display input text in search results title bar
-
+        // display input text in search results title bar
         // console.log('change results')
         $('#search-term-result').text('Results for "' +inputText +'"');
         $('#search-term-result').append('<span class="glyphicon glyphicon-pushpin" style= "float:right" id="result-pin"></span>')
