@@ -23,6 +23,8 @@ var inputText = '';
 
 var quill = null;
 
+var currentKey = null;
+
 
 // --- --- GLOBAL FUNCTIONS --- ---
 
@@ -169,23 +171,6 @@ $('#search').submit( function( event ){
     //clear results panel
     $('.search-results-shown').html('');
 
-    // add notepad option to top of panel
-
-    $('.search-results-shown').append(`
-
-        <div class="editor-div">
-            <span class="add-notes-button">
-                <span class="glyphicon glyphicon-pencil"></span>
-                <span>Click to Add Notes</span>        
-            </span>
-         </div>
-         <hr>
-
-        `)
-
-    // <div id="editor-container"></div>
-
-
     //clear results array
     currentResultArray = [];
 
@@ -203,9 +188,34 @@ $(document).on('click', '#result-pin', function(){
                                 resultsArray: currentResultArray
                             };
 
-    database.ref(currentUser+'/pinnedSearches/').push(newDatabaseObject);
+
+    currentKey = database.ref(currentUser+'/pinnedSearches/').push().getKey();
+    database.ref(currentUser+'/pinnedSearches/'+currentKey).set(newDatabaseObject);
 
     $('#result-pin').hide();
+
+
+    //add editor box to top of panel
+    $('.search-results-shown').prepend(`
+
+        <div class="editor-div" style="height, 275px">
+            <div class='quill-box'>
+            </div>
+        </div>
+        <hr>
+
+    `)
+      
+    quill = new Quill('.quill-box', {
+        placeholder: 'Add notes here...',
+        theme: 'bubble'
+    });
+
+    $('.editor-div').append(`
+
+        <button class="btn btn-default save-button">Save</button>
+        
+    `)
 
 });
 
@@ -231,7 +241,7 @@ database.ref(currentUser+'/pinnedSearches/').on("child_added", function(snapshot
 $(document).on('click', '.pin-search', function(){
 
     //initializes variable to the key for the clicked element
-    var currentKey = $(this).attr('data-label');
+    currentKey = $(this).attr('data-label');
 
     database.ref(currentUser+'/pinnedSearches/'+currentKey).once("value", function(snapshot) {
 
@@ -244,15 +254,27 @@ $(document).on('click', '.pin-search', function(){
         //add editor box to top of panel
         $('.search-results-shown').append(`
 
-         <div class="editor-div" style="height, 275px">
-            <span class="add-notes-button">
-                <span class="glyphicon glyphicon-pencil"></span>
-                <span>Click to Add Notes</span>        
-            </span>
-         </div>
-         <hr>
+        <div class="editor-div" style="height, 275px">
+            <div class='quill-box'>
+            </div>
+        </div>
+        <hr>
 
         `)
+      
+        quill = new Quill('.quill-box', {
+            placeholder: 'Add notes here...',
+            theme: 'bubble'
+        });
+
+        $('.editor-div').append(`
+
+            <button class="btn btn-default save-button">Save</button>
+            
+        `)   
+
+        //insert previously saved notes into editor
+        quill.setContents(snapshot.val().notes);
 
         //clear results array
         currentResultArray = [];
@@ -269,7 +291,7 @@ $(document).on('click', '.glyphicon-remove', function(){
 
     console.log('remove this!')
 
-    var currentKey = $(this).parent().parent().attr('data-label');
+    currentKey = $(this).parent().parent().attr('data-label');
 
     console.log('Current Key: '+currentKey);
 
@@ -298,7 +320,7 @@ $('#side-bar').html('');
 //initializes the news display
 $(document).ready ( function () {
 
-    $('#search-term-result').text('Top TechCrunch Headlines:');
+    $('#search-term-result').text('Top TechCrunch Headlines');
     var queryURL = "https://newsapi.org/v1/articles?source=techcrunch&sortBy=top&apiKey=671033c49a4a4f5392b09b572445e7fc"
     var newsArray = [];
     
@@ -311,7 +333,6 @@ $(document).ready ( function () {
 });
 
 //check for login status
-
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         console.log('signed in!')
@@ -354,41 +375,18 @@ $(document).on('click', '#signout', function(){
 
 });
 
-
-// when "add notes" button clicked, initialize editor
-$(document).on('click', '.add-notes-button', function(){
-
-    console.log('edit click')
-    //clear editor div
-    $('.editor-div').html(`
-            <div class='quill-box'></div>
-    `)
-
-    quill = new Quill('.quill-box', {
-        modules: {
-            toolbar: ['code-block']
-        },
-        placeholder: 'Add notes...',
-        theme: 'snow'  // or 'bubble'
-    });
-
-    $('.editor-div').append(`
-
-        <button class="btn btn-default save-button">Save Notes</button>
-        
-        `)
-
-});
-
+//when save button clicked, note is set in database
 $(document).on('click', '.save-button', function(){
+
+    var currentNote = quill.getContents();
+
+    database.ref(currentUser+'/pinnedSearches/'+currentKey+'/notes/').set(currentNote);
 
     console.log( quill.getContents());
 
 });
 
-/*
 
-  
-     
+/*  
 
 */
